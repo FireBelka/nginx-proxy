@@ -4,8 +4,6 @@ services:
     build: ./web-app-2/
     container_name: nginx-backend
     image: testregk8s.azurecr.io/nginx-backend
-    ports:
-      - 80
     networks:
       - net-1
 
@@ -14,9 +12,8 @@ services:
     container_name: nginx-proxy
     image: testregk8s.azurecr.io/nginx-proxy
     ports:
-      - 80:80
       - 443:443
-      - 8081:8081
+      - 80:80
     depends_on:
       - nginx-backend
     networks:
@@ -39,11 +36,11 @@ volumes:
   certbot-etc:
   certbot-var:
   web-root:
-    driver: local
-    driver_opts:
-      type: none
-      device: /home/firebelka/projects/ngnix-proxy
-      o: bind
+#    driver: local
+#    driver_opts:
+#      type: none
+#      device: /home/firebelka/projects/ngnix-proxy
+#      o: bind
 networks:
   net-1:
     driver: bridge
