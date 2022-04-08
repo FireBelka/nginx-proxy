@@ -1,2 +1,2 @@
-# Test web page
-Custom page with nginx
+# Nginx-proxy
+Nginx-service with redirect to another web app with docker-compose 
