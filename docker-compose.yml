@@ -3,23 +3,47 @@ services:
   nginx-backend:
     build: ./web-app-2/
     container_name: nginx-backend
+    image: testregk8s.azurecr.io/nginx-backend
     ports:
-      - 8081:8081
+      - 80
     networks:
       - net-1
 
   nginx-proxy:
     build: ./nginx-proxy/
-#    links:
-#      - nginx-backend
     container_name: nginx-proxy
+    image: testregk8s.azurecr.io/nginx-proxy
     ports:
-      - 8080:8080
+      - 80:80
+      - 443:443
+      - 8081:8081
     depends_on:
       - nginx-backend
     networks:
       - net-1
+    volumes:
+      - certbot-etc:/etc/letsencrypt
+      - certbot-var:/var/lib/letsencrypt
+      - web-root:/var/www/html
+#  certbot:
+##    container_name: certbot
+  #  volumes:
+  #    - certbot-etc:/etc/letsencrypt
+  #    - certbot-var:/var/lib/letsencrypt
+  #    - web-root:/var/www/html
+  #  depends_on:
+  #    - nginx-proxy
+  #  command: certonly --webroot --webroot-path=/var/www/html --register-unsafely-without-email --agree-tos --no-eff-email --staging -d nginx-proxy
 
+volumes:
+  certbot-etc:
+  certbot-var:
+  web-root:
+    driver: local
+    driver_opts:
+      type: none
+      device: /home/firebelka/projects/ngnix-proxy
+      o: bind
 networks:
   net-1:
     driver: bridge
