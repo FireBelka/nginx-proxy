@@ -1,0 +1,25 @@
+version: "3"
+services:
+  nginx-backend:
+    build: ./web-app/
+    container_name: nginx-backend
+    ports:
+      - 8081:8081
+    networks:
+      - net-1
+
+  nginx-proxy:
+    build: ./nginx-proxy/
+#    links:
+#      - nginx-backend
+    container_name: nginx-proxy
+    ports:
+      - 8080:8080
+    depends_on:
+      - nginx-backend
+    networks:
+      - net-1
+
+networks:
+  net-1:
+    driver: bridge
