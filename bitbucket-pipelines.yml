@@ -10,8 +10,8 @@ pipelines:
           name: Run docker script
           script:
             - docker login -u $DOCKER_USER -p $DOCKER_PASSWORD $DOCKER_LOGIN_SERVER
-            - docker-compose build -f docker-compose.yml
-            - docker-compose push
+            - docker-compose -f docker-compose.yml build
+            - docker-compose -f docker-compose.yml push
           services:
             - docker
 #      - step:
