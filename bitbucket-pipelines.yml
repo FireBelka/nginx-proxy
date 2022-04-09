@@ -1,0 +1,35 @@
+# This is an example Starter pipeline configuration
+# Use a skeleton to build, test and deploy using manual and parallel steps
+# -----
+# You can specify a custom docker image from Docker Hub as your build environment.
+image: ubuntu:latest
+
+pipelines:
+  default:
+   # - parallel:
+      #- step:
+          #name: 'Login to docker'
+         # script:
+           # - pipe: microsoft/azure-cli-run:1.1.0
+             # variables:
+             #   AZURE_APP_ID: $AZURE_APP_ID
+               # AZURE_PASSWORD: $AZURE_PASSWORD
+                #AZURE_TENANT_ID: $AZURE_TENANT_ID
+           #     CLI_COMMAND:
+            #       - docker login -u $DOCKER_USER -p $DOCKER_PASSWORD smth.azurecr.io
+             #      - docker build . -t smth.azurecr.io/my-app-bitbucket:latest
+              #     - docker push smth.azurecr.io/my-app-bitbucket:latest
+      - step:
+          name: Run docker script
+          script:
+            - docker login -u $DOCKER_USER -p $DOCKER_PASSWORD $DOCKER_LOGIN_SERVER
+            - docker-compose build
+            - docker-compose push
+          services:
+            - docker
+#      - step:
+#          name: Changing slots
+#          image: mcr.microsoft.com/azure-cli
+#          script:
+#            - az login --service-principal -u $AZURE_APP_ID -p $AZURE_PASSWORD --tenant $AZURE_TENANT_ID
+#            - az webapp deployment slot swap  -g 'deploy-from-bitbucket' -n 'apache-web-app-service-bitbucket' --slot staging --target-slot production
