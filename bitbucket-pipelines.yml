@@ -10,8 +10,9 @@ pipelines:
           name: Run docker script
           caches:
             - docker
+            - pip
           script:
-            - apt-get update -y
+            - pip install docker-compose
             - curl -L https://github.com/docker/compose/releases/download/1.19.0/docker-compose-Linux-x86_64 -o /usr/local/bin/docker-compose
             - chmod +x /usr/local/bin/docker-compose
             - docker login -u $DOCKER_USER -p $DOCKER_PASSWORD $DOCKER_LOGIN_SERVER
