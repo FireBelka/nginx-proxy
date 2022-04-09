@@ -7,7 +7,7 @@
 pipelines:
   default:
       - step:
-          name: Run docker script
+          name: Docker-compose build and push to ACR
           image: atlassian/default-image:2
           caches:
             - docker
@@ -21,6 +21,11 @@ pipelines:
             - docker-compose -f docker-compose.yml push
           services:
             - docker
+      - step:
+          name: Changing slots
+          image: mcr.microsoft.com/azure-cli
+          script:
+            - az login --service-principal -u $AZURE_APP_ID -p $AZURE_PASSWORD --tenant $AZURE_TENANT_ID
 #      - step:
 #          name: Changing slots
 #          image: mcr.microsoft.com/azure-cli
