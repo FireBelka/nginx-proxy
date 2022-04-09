@@ -14,7 +14,6 @@ pipelines:
             - docker-compose push
           services:
             - docker
-            - docker-compose
 #      - step:
 #          name: Changing slots
 #          image: mcr.microsoft.com/azure-cli
