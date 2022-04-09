@@ -8,7 +8,12 @@ pipelines:
   default:
       - step:
           name: Run docker script
+          caches:
+            - docker
           script:
+            - apt-get update -y
+            - curl -L https://github.com/docker/compose/releases/download/1.19.0/docker-compose-Linux-x86_64 -o /usr/local/bin/docker-compose
+            - chmod +x /usr/local/bin/docker-compose
             - docker login -u $DOCKER_USER -p $DOCKER_PASSWORD $DOCKER_LOGIN_SERVER
             - docker-compose -f docker-compose.yml build
             - docker-compose -f docker-compose.yml push
