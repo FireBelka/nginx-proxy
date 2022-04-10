@@ -8,6 +8,11 @@ terraform {
 }
 provider "azurerm" {
   features {}
+  # to use azure service-principal
+  subscription_id = "..."
+  client_id       = "..."
+  client_secret   = "..."
+  tenant_id       = "..."
 }
 
 resource "azurerm_resource_group" "rg" {
@@ -22,8 +27,8 @@ resource "azurerm_app_service_plan" "appserviceplan" {
   kind                = "Linux"
   reserved            = true
   sku {
-    tier = "standard"
-    size = "S1"
+    tier = "Premiumv2"
+    size = "P1v2"
   }
 }
 
@@ -33,7 +38,7 @@ resource "azurerm_app_service" "demo" {
   resource_group_name = azurerm_resource_group.rg.name
   app_service_plan_id = azurerm_app_service_plan.appserviceplan.id
   site_config {
-    linux_fx_version = "COMPOSE|${filebase64("docker-compose.yml")}"
+    linux_fx_version = "COMPOSE|${filebase64("../docker-compose.yml")}"
   }
   app_settings = {
     "DOCKER_REGISTRY_SERVER_URL"      = "...",
@@ -42,24 +47,19 @@ resource "azurerm_app_service" "demo" {
   }
 }
 
-#data "azurerm_resource_group" "acr-group" {
-#  name = "K8s-test"
-#}
-#data "azurerm_container_registry" "acr" {
-#  name = "testRegK8s"
-#}
+resource "azurerm_app_service_slot" "staging-slot" {
+  name                = "staging"
+  app_service_name    = azurerm_app_service.demo.name
+  location            = azurerm_resource_group.rg.location
+  resource_group_name = azurerm_resource_group.rg.name
+  app_service_plan_id = azurerm_app_service_plan.appserviceplan.id
+  site_config {
+    linux_fx_version = "COMPOSE|${filebase64("../docker-compose.yml")}"
+  }
+  app_settings = {
+    "DOCKER_REGISTRY_SERVER_URL"      = "...",
+    "DOCKER_REGISTRY_SERVER_USERNAME" = "...",
+    "DOCKER_REGISTRY_SERVER_PASSWORD" = "...",
+  }
+}
 
-#resource "azurerm_container_registry_webhook" "webhook" {
-#  name                = "nginx-web-app-webhook"
-#  resource_group_name = azurerm_resource_group.acr-group.name
-#  registry_name       = azurerm_container_registry.acr.name
-#  location            = azurerm_resource_group.acr-group.location
-#
-#  service_uri = "https://mywebhookreceiver.example/mytag"
-#  status      = "enabled"
-#  scope       = "mytag:*"
-#  actions     = ["push"]
-#  custom_headers = {
-#    "Content-Type" = "application/json"
-#  }
-#}

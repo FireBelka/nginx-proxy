@@ -16,9 +16,3 @@ pipelines:
           image: mcr.microsoft.com/azure-cli
           script:
             - az login --service-principal -u $AZURE_APP_ID -p $AZURE_PASSWORD --tenant $AZURE_TENANT_ID
-#      - step:
-#          name: Changing slots
-#          image: mcr.microsoft.com/azure-cli
-#          script:
-#            - az login --service-principal -u $AZURE_APP_ID -p $AZURE_PASSWORD --tenant $AZURE_TENANT_ID
-#            - az webapp deployment slot swap  -g 'deploy-from-bitbucket' -n 'apache-web-app-service-bitbucket' --slot staging --target-slot production
