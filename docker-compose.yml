@@ -10,6 +10,7 @@ services:
   nginx-proxy:
     build: ./nginx-proxy/
     container_name: nginx-proxy
+    restart: unless-stopped
     image: testregk8s.azurecr.io/nginx-proxy
     ports:
       - 443:443
@@ -18,18 +19,24 @@ services:
       - nginx-backend
     networks:
       - net-1
-#    volumes:
-#      - ./data/certbot/conf:/etc/letsencrypt
-#      - ./data/certbot/www:/var/www/certbot
+    volumes:
+      - ./data/certbot/conf:/etc/letsencrypt
+      - ./data/certbot/www:/var/www/certbot
+    #command: '/bin/sh -c ''while :; do sleep 6h & wait $${!}; nginx -s reload; done & nginx -g "daemon off;"'''
 
 
-#  certbot:
-#    image: certbot/certbot
-#    volumes:
-#      - ./data/certbot/conf:/etc/letsencrypt
-#      - ./data/certbot/www:/var/www/certbot
-#    depends_on:
-#      - nginx-proxy
+  certbot:
+    container_name: certbot
+    restart: unless-stopped
+    image: certbot/certbot
+    networks:
+      - net-1
+    volumes:
+      - ./data/certbot/conf:/etc/letsencrypt
+      - ./data/certbot/www:/var/www/certbot
+    #entrypoint: "/bin/sh -c 'trap exit TERM; while :; do certbot renew; sleep 12h & wait $${!}; done;'"
+
+
 
 
 networks:
