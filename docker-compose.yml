@@ -1,7 +1,7 @@
 version: "3"
 services:
   nginx-backend:
-    build: ./web-app-2/
+    build: ./web-app/
     container_name: nginx-backend
     image: testregk8s.azurecr.io/nginx-backend
     networks:
