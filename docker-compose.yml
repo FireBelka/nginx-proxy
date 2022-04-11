@@ -18,37 +18,20 @@ services:
       - nginx-backend
     networks:
       - net-1
-    volumes:
-      - ./data/certbot/conf:/etc/letsencrypt
-      - ./data/certbot/www:/var/www/certbot
+#    volumes:
+#      - ./data/certbot/conf:/etc/letsencrypt
+#      - ./data/certbot/www:/var/www/certbot
 
-      
-  certbot:
-    image: certbot/certbot
-    volumes:
-      - ./data/certbot/conf:/etc/letsencrypt
-      - ./data/certbot/www:/var/www/certbot
-    depends_on:
-      - nginx-proxy
 
 #  certbot:
-##    container_name: certbot
-  #  volumes:
-  #    - certbot-etc:/etc/letsencrypt
-  #    - certbot-var:/var/lib/letsencrypt
-  #    - web-root:/var/www/html
-  #  depends_on:
-  #    - nginx-proxy
-  #  command: certonly --webroot --webroot-path=/var/www/html --register-unsafely-without-email --agree-tos --no-eff-email --staging -d nginx-proxy
+#    image: certbot/certbot
+#    volumes:
+#      - ./data/certbot/conf:/etc/letsencrypt
+#      - ./data/certbot/www:/var/www/certbot
+#    depends_on:
+#      - nginx-proxy
 
-#volumes:
-#  - ./data/certbot/conf:/etc/letsencrypt
-#  - ./data/certbot/www:/var/www/certbot
-#    driver: local
-#    driver_opts:
-#      type: none
-#      device: /home/firebelka/projects/ngnix-proxy
-#      o: bind
+
 networks:
   net-1:
     driver: bridge
