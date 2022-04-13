@@ -71,7 +71,7 @@ networks:
   net-1:
     driver: bridge
 ```
-##docker-compose for usage inside vm(removed build section)
+## docker-compose for usage inside vm(removed build section)
 ```
 version: "3"
 services:
@@ -115,7 +115,7 @@ networks:
     driver: bridge
 ```
 
-##nginx-proxy setup
+## nginx-proxy setup
 ```
 server {
     listen 80;
@@ -141,7 +141,7 @@ server {
 }
 ```
 
-#how make it working by hands
+# how make it working by hands
 1) *locally* docker-compose build && docker-compose push(pre-image)   
 2) *locally* terraform apply    
 3) *locally* git commit && git push -> bitbucket pipeline runs
