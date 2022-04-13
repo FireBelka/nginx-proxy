@@ -6,21 +6,14 @@ pipelines:
           caches:
             - docker
           script:
-          #   - docker login azure --client-id $AZURE_APP_ID --client-secret $AZURE_PASSWORD --tenant-id AZURE_TENANT_ID
-          #   - docker context create aci myacicontext --resource-group K8s-test --location eastus
             - docker login -u $DOCKER_USER -p $DOCKER_PASSWORD $DOCKER_LOGIN_SERVER
             - docker-compose -f docker-compose.yml build
             - docker-compose -f docker-compose.yml push
           services:
             - docker
-            #- docker-cli
       - step:
           name: exec docker-compose up
           image: mcr.microsoft.com/azure-cli
           script:
             - az login --service-principal -u $AZURE_APP_ID -p $AZURE_PASSWORD --tenant $AZURE_TENANT_ID
-            - az vm run-command invoke -g nginx-proxy -n myVM1 --command-id RunShellScript --scripts "sudo docker-compose pull && sudo docker-compose -f /home/azureuser/docker-compose.yml"
-#definitions:
-#  services:
-#    docker-cli:
-#      image: firebelka/docker-compose-cli:latest
+            - az vm run-command invoke -g nginx-proxy -n myVM1 --command-id RunShellScript --scripts "sudo docker-compose -f /home/azureuser/docker-compose.yml pull  && sudo docker-compose -f /home/azureuser/docker-compose.yml up "

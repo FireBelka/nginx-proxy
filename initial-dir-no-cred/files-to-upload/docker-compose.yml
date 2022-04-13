@@ -1,17 +1,17 @@
 version: "3"
 services:
   nginx-backend:
-    build: ./web-app-2/
     container_name: nginx-backend
-    restart: unless-stopped
-    image: testregk8s.azurecr.io/nginx-backend
+    #restart: unless-stopped
+    image: <ACR/registry-1>
     domainname: abcdefg
     networks:
       - net-1
+
   nginx-proxy:
-    build: ./nginx-proxy/
     container_name: nginx-proxy
-    image: testregk8s.azurecr.io/nginx-proxy
+    #restart: unless-stopped
+    image: <ACR/registry-1>
     domainname: abcdefg
     ports:
       - 443:443
@@ -23,17 +23,18 @@ services:
     volumes:
       - ./data/certbot/conf:/etc/letsencrypt
       - ./data/certbot/www:/var/www/certbot
+
+
   certbot:
     container_name: certbot
+    #restart: unless-stopped
     image: certbot/certbot
     networks:
       - net-1
     volumes:
       - ./data/certbot/conf:/etc/letsencrypt
       - ./data/certbot/www:/var/www/certbot
-volumes:
-  certbot-conf:
-  certbot-www:
+
 networks:
   net-1:
     driver: bridge
