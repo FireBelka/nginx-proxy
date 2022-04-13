@@ -3,6 +3,10 @@ Nginx-service with redirect to another web app with docker-compose
 Web-app taken from https://github.com/gabrielecirulli/2048    
 Nginx OpenSSL sertification https://pentacent.medium.com/nginx-and-lets-encrypt-with-docker-in-less-than-5-minutes-b4b8a60d3a71
 
+# Required for terraform
+1) resource group
+2) public ip with linked dns(bought on freenom) 
+
 # How it works
 1) terraform apply (deploy azure vm with startup script init.sh)    
 2) on every push to master build image, push to ACR, update image on vm with az vm run-command invoke
