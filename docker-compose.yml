@@ -1,7 +1,7 @@
 version: "3"
 services:
   nginx-backend:
-    build: ./web-app/
+    build: ./web-app-2/
     container_name: nginx-backend
     restart: unless-stopped
     image: testregk8s.azurecr.io/nginx-backend
