@@ -1,7 +1,7 @@
 # Nginx-proxy
 Nginx-service with redirect to another web app with docker-compose  
-Web-app taken from https://github.com/gabrielecirulli/2048    
-Nginx OpenSSL sertification https://pentacent.medium.com/nginx-and-lets-encrypt-with-docker-in-less-than-5-minutes-b4b8a60d3a71
+Web-app taken from [github link](https://github.com/gabrielecirulli/2048)    
+Nginx OpenSSL sertification [medium link](https://pentacent.medium.com/nginx-and-lets-encrypt-with-docker-in-less-than-5-minutes-b4b8a60d3a71)
 
 # Required for terraform
 1) resource group
